@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -17,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.eweek04a.model.Item
@@ -52,6 +54,16 @@ fun TodoList(todoList: MutableList<Item>, modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp)
+                        .toggleable(
+                            value = item.status == TodoStatus.COMPLETED,
+                            onValueChange = { isChecked ->
+                                todoList[index] = item.copy(
+                                    status = if (isChecked) TodoStatus.COMPLETED
+                                    else TodoStatus.PENDING
+                                )
+                            },
+                            role = Role.Checkbox
+                        )
                 ) {
                     Row {
                         TodoCheckbox(item.status == TodoStatus.COMPLETED) { isChecked ->
