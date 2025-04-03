@@ -1,4 +1,4 @@
-package com.example.eweek04a
+package com.example.eweek05a
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,17 +11,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.eweek04a.ui.theme.MobileProgrammingUITheme
-import com.example.eweek04a.uicomponents.MainScreen
+import com.example.eweek05a.ui.theme.MobileProgrammingUITheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge() // 이거 주석 처리해도 됨
+        enableEdgeToEdge()
         setContent {
             MobileProgrammingUITheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(modifier = Modifier.padding(innerPadding))
+                    Greeting(
+                        name = "Android",
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }
