@@ -2,7 +2,7 @@
 
 |주차|바로가기|
 |:-:|:-:|
-|04|[TodoList 1](eweek04a)|
+|04|[TodoList](eweek04a)|
 |||
 |||
 |||
