@@ -23,3 +23,4 @@ rootProject.name = "MobileProgrammingUI"
 include(":app")
 include(":eweek04a")
 include(":eweek05a")
+include(":assignment2")
