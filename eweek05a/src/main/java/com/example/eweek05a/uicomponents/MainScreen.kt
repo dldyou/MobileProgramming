@@ -4,11 +4,18 @@ import android.content.res.Configuration
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.eweek05a.R
 import com.example.eweek05a.model.ButtonType
@@ -32,22 +40,147 @@ fun MainScreen(
 ) {
     val imageList = imageViewModel.imageList
     val orientation = LocalConfiguration.current.orientation
-    var scrollState = rememberScrollState()
+    val listState = rememberLazyListState()
+//    var scrollState = rememberScrollState()
     // 세로
     if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-        Column(
-            modifier = Modifier.fillMaxWidth().verticalScroll(scrollState),
+//        Column(
+//            modifier = Modifier.fillMaxWidth().verticalScroll(scrollState),
+//            horizontalAlignment = Alignment.CenterHorizontally
+//        ) {
+//            ImageList(imageList = imageList)
+//        }
+        LazyColumn(
+            state = listState,
+            contentPadding = PaddingValues(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ImageList(imageList = imageList)
+            itemsIndexed(imageList) { index, imageData ->
+                when(imageData.buttonType) {
+                    ButtonType.ICON -> {
+                        ImageWithButton(
+                            image = imageData.image,
+                            modifier = modifier
+                        ) {
+                            ButtonWithIcon(
+                                likes = imageData.likes,
+                                onClick = {
+                                    imageList[index] = imageData.copy(
+                                        likes = imageData.likes + 1
+                                    )
+                                }
+                            )
+                        }
+                    }
+                    ButtonType.BADGE -> {
+                        ImageWithButton(
+                            image = imageData.image,
+                            modifier = modifier
+                        ) {
+                            ButtonWithBadge(
+                                likes = imageData.likes,
+                                onClick = {
+                                    imageList[index] = imageData.copy(
+                                        likes = imageData.likes + 1
+                                    )
+                                }
+                            )
+                        }
+                    }
+                    ButtonType.EMOJI -> {
+                        ImageWithButton(
+                            image = imageData.image,
+                            modifier = modifier
+                        ) {
+                            ButtonWithEmoji(
+                                likes = imageData.likes,
+                                dislikes = imageData.dislikes,
+                                onClickLikes = {
+                                    imageList[index] = imageData.copy(
+                                        likes = imageData.likes + 1
+                                    )
+                                },
+                                onClickDisLikes = {
+                                    imageList[index] = imageData.copy(
+                                        dislikes = imageData.dislikes + 1
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
+            }
         }
     } else {
-        Row(
-            modifier = Modifier.fillMaxHeight().horizontalScroll(scrollState),
-            horizontalArrangement = Arrangement.SpaceEvenly,
+//        Row(
+//            modifier = Modifier.fillMaxHeight().horizontalScroll(scrollState),
+//            horizontalArrangement = Arrangement.SpaceEvenly,
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            ImageList(imageList = imageList)
+//        }
+        LazyRow(
+            state = listState,
+            contentPadding = PaddingValues(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ImageList(imageList = imageList)
+            itemsIndexed(imageList) { index, imageData ->
+                when(imageData.buttonType) {
+                    ButtonType.ICON -> {
+                        ImageWithButton(
+                            image = imageData.image,
+                            modifier = modifier
+                        ) {
+                            ButtonWithIcon(
+                                likes = imageData.likes,
+                                onClick = {
+                                    imageList[index] = imageData.copy(
+                                        likes = imageData.likes + 1
+                                    )
+                                }
+                            )
+                        }
+                    }
+                    ButtonType.BADGE -> {
+                        ImageWithButton(
+                            image = imageData.image,
+                            modifier = modifier
+                        ) {
+                            ButtonWithBadge(
+                                likes = imageData.likes,
+                                onClick = {
+                                    imageList[index] = imageData.copy(
+                                        likes = imageData.likes + 1
+                                    )
+                                }
+                            )
+                        }
+                    }
+                    ButtonType.EMOJI -> {
+                        ImageWithButton(
+                            image = imageData.image,
+                            modifier = modifier
+                        ) {
+                            ButtonWithEmoji(
+                                likes = imageData.likes,
+                                dislikes = imageData.dislikes,
+                                onClickLikes = {
+                                    imageList[index] = imageData.copy(
+                                        likes = imageData.likes + 1
+                                    )
+                                },
+                                onClickDisLikes = {
+                                    imageList[index] = imageData.copy(
+                                        dislikes = imageData.dislikes + 1
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 
