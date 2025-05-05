@@ -1,6 +1,7 @@
 package com.example.eweek05a.uicomponents
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,8 +18,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -32,6 +36,7 @@ import com.example.eweek05a.model.ButtonType
 import com.example.eweek05a.model.ImageData
 import com.example.eweek05a.model.ImageUri
 import com.example.eweek05a.viewmodel.ImageViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen(
@@ -42,6 +47,15 @@ fun MainScreen(
     val orientation = LocalConfiguration.current.orientation
     val listState = rememberLazyListState()
 //    var scrollState = rememberScrollState()
+
+    val state = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+
+    val showButton by remember {
+        derivedStateOf {
+            state.firstVisibleItemIndex > 0
+        }
+    }
     // 세로
     if (orientation == Configuration.ORIENTATION_PORTRAIT) {
 //        Column(
@@ -180,6 +194,14 @@ fun MainScreen(
                         }
                     }
                 }
+            }
+        }
+    }
+
+    AnimatedVisibility(visible = showButton) {
+        ScrollToTopButton {
+            scope.launch {
+                state.scrollToItem(0)
             }
         }
     }
