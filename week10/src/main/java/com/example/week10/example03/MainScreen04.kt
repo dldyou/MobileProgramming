@@ -1,0 +1,145 @@
+package com.example.week10.example03
+
+import android.Manifest
+import android.R.attr.label
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import com.example.week10.functions.makeCall
+import com.example.week10.functions.showCamera
+import com.example.week10.uicomponents.PermissionButton
+import com.example.week10.uicomponents.PermissionButton2
+import com.example.week10.uicomponents.RationaleDialog
+import com.example.week10.uicomponents.SettingsDialog
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.shouldShowRationale
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun MainScreen04(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val callPermissionState = rememberPermissionState(permission = Manifest.permission.CALL_PHONE)
+    var showCallDialog by remember { mutableStateOf(false) }
+    var showSettingDialog by remember { mutableStateOf(false) }
+    var permissionConfirm by remember { mutableStateOf(false) }
+
+    fun requestCallPermission() {
+        when {
+            callPermissionState.status.isGranted -> {
+                makeCall(context)
+            }
+
+            callPermissionState.status.shouldShowRationale -> {
+                showCallDialog = true
+            }
+
+            else -> {
+                if (permissionConfirm) {
+                    showSettingDialog = true
+                } else {
+                    permissionConfirm = true
+                    callPermissionState.launchPermissionRequest()
+                }
+            }
+        }
+    }
+
+    if (showCallDialog) {
+        RationaleDialog(
+            onDismiss = { showCallDialog = false },
+            onConfirm = {
+                showCallDialog = false
+                requestCallPermission()
+            },
+        )
+    }
+
+    if (showSettingDialog) {
+        SettingsDialog(
+            onDismiss = { showSettingDialog = false },
+            onGoToSettings = {
+                showSettingDialog = false
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = "package:${context.packageName}".toUri()
+                }
+                context.startActivity(intent)
+            }
+        )
+    }
+
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+
+        Button(onClick = {
+//            val web = Uri.parse("https://www.naver.com")
+//            val webIntent = Intent(Intent.ACTION_VIEW, web)
+            val webIntent = Intent(Intent.ACTION_VIEW).apply {
+                data = "https://www.naver.com".toUri()
+            }
+            context.startActivity(webIntent)
+
+        }, modifier = Modifier.width(200.dp)) {
+            Text("네이버")
+        }
+
+        Button(onClick = {
+            val location = Uri.parse("geo:37.543684,127.077130?z=16")
+            val mapIntent = Intent(Intent.ACTION_VIEW, location)
+            context.startActivity(mapIntent)
+        }, modifier = Modifier.width(200.dp)) {
+            Text("맵")
+        }
+
+        Button(onClick = {
+            val message = "sms:010-1234-1234".toUri()
+            val messageIntent = Intent(Intent.ACTION_SENDTO, message)
+            messageIntent.putExtra("sms_body", "집에 가자....")
+            context.startActivity(messageIntent)
+        }, modifier = Modifier.width(200.dp)) {
+            Text("문자보내기")
+        }
+
+        PermissionButton2(
+            permission = Manifest.permission.CALL_PHONE,
+            label = "전화 걸기",
+            onGranted = {
+                makeCall(context)
+            }
+        )
+        PermissionButton2(
+            permission = Manifest.permission.CALL_PHONE,
+            label = "카메라",
+            onGranted = {
+                showCamera(context)
+            }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun MainScreen01Preview() {
+    MainScreen04()
+}

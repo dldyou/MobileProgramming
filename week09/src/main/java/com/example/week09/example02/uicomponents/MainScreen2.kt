@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -31,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.week09.example02.model.Routes
 import com.example.week09.example02.navigation.BottomNavigationBar
 import com.example.week09.example02.navigation.NavGraph
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,11 +50,12 @@ fun MainScreen2(modifier: Modifier = Modifier) {
     }
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val coroutineScope = rememberCoroutineScope()
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-
+                DrawerContent()
             }
         }
     ) {
@@ -63,7 +66,13 @@ fun MainScreen2(modifier: Modifier = Modifier) {
                         title = { Text(text = currentRoute.route) },
                         navigationIcon = {
                             IconButton(onClick = {
-
+                                coroutineScope.launch {
+                                    if (drawerState.isClosed) {
+                                        drawerState.open()
+                                    } else {
+                                        drawerState.close()
+                                    }
+                                }
                             }) {
                                 Icon(
                                     imageVector = Icons.Default.Menu,
