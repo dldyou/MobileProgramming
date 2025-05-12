@@ -1,5 +1,6 @@
 package com.example.week09.example02.uicomponents
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,8 +13,10 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.week09.R
 
 @Composable
 fun ColumnScope.DrawerContent() {
@@ -21,6 +24,10 @@ fun ColumnScope.DrawerContent() {
         text = "202211328 윤찬규",
         modifier = Modifier.padding(16.dp),
         fontSize = 20.sp
+    )
+    Image(
+        painter = painterResource(id = R.drawable.a),
+        contentDescription = "Drawer Image",
     )
     Text(
         text = "윤찬규",
