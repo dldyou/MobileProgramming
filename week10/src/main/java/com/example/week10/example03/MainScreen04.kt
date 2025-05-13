@@ -129,7 +129,7 @@ fun MainScreen04(modifier: Modifier = Modifier) {
             }
         )
         PermissionButton2(
-            permission = Manifest.permission.CALL_PHONE,
+            permission = Manifest.permission.CAMERA,
             label = "카메라",
             onGranted = {
                 showCamera(context)

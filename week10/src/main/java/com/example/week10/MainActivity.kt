@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.week10.example03.MainScreen04
+import com.example.week10.example04.MainScreen05
+import com.example.week10.example05.NotificationApp
 import com.example.week10.ui.theme.MobileProgrammingUITheme
 
 class MainActivity : ComponentActivity() {
@@ -20,13 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MobileProgrammingUITheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen04(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                    )
-                }
+                MainScreen04()
             }
         }
     }
