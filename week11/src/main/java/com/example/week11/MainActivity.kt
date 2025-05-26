@@ -1,4 +1,4 @@
-package com.example.week10
+package com.example.week11
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,12 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.week10.example03.MainScreen04
-import com.example.week10.example04.MainScreen05
-import com.example.week10.example05.NotificationApp
-import com.example.week10.example06.NotificationMainScreen
-import com.example.week10.example06.NotificationNavGraph
-import com.example.week10.ui.theme.MobileProgrammingUITheme
+import com.example.week11.example01.FetchMelonChart
+import com.example.week11.ui.theme.MobileProgrammingUITheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,24 +20,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MobileProgrammingUITheme {
-                NotificationNavGraph()
+                FetchMelonChart()
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MobileProgrammingUITheme {
-        Greeting("Android")
     }
 }

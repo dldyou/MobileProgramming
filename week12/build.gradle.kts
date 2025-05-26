@@ -2,14 +2,15 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
-    namespace = "com.example.week10"
+    namespace = "com.example.week12"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.week10"
+        applicationId = "com.example.week12"
         minSdk = 34
         targetSdk = 35
         versionCode = 1
@@ -49,8 +50,10 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.accompanist.permissions)
-    implementation(libs.androidx.navigation.navigation.compose)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.lifecycle.lifecycle.viewmodel.compose)
+    ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

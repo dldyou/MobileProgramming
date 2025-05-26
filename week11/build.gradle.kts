@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.week10"
+    namespace = "com.example.week11"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.week10"
+        applicationId = "com.example.week11"
         minSdk = 34
         targetSdk = 35
         versionCode = 1
@@ -49,8 +49,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.accompanist.permissions)
-    implementation(libs.androidx.navigation.navigation.compose)
+    implementation(libs.jsoup)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.lifecycle.lifecycle.viewmodel.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
